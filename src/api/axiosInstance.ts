@@ -4,7 +4,7 @@ export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 5000, // 5 detik timeout
+  timeout: 5000, 
 });
 
 api.interceptors.response.use(
@@ -12,13 +12,10 @@ api.interceptors.response.use(
   (error) => {
     let errorMsg = "Unknown error";
     if (error.response) {
-      // server merespon error
       errorMsg = JSON.stringify(error.response.data);
     } else if (error.request) {
-      // request dibuat tapi tidak ada response
       errorMsg = "No response from server (Network / CORS issue)";
     } else {
-      // error lain
       errorMsg = error.message;
     }
     console.error("API Error:", errorMsg);

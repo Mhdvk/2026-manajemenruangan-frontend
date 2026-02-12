@@ -1,6 +1,11 @@
-import { useState } from "react"
-import { roomSeeder } from "../data/roomSeeder"
+import { useEffect, useState } from "react"
 import { createBorrowing } from "../api/borrowingApi"
+import { getAllRooms } from "../api/roomApi"
+
+interface Room {
+  id: number
+  name: string
+}
 
 export default function BorrowingForm() {
   const [purpose, setPurpose] = useState("")
@@ -10,6 +15,13 @@ export default function BorrowingForm() {
   const [endTime, setEndTime] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [rooms, setRooms] = useState<Room[]>([])
+
+  useEffect(() => {
+    getAllRooms()
+      .then(setRooms)
+      .catch(() => setError("Gagal mengambil data ruangan"))
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -30,7 +42,9 @@ export default function BorrowingForm() {
         endTime,
         tujuan: purpose,
       })
+
       alert("Berhasil menambahkan peminjaman!")
+
       setPurpose("")
       setRoomId("")
       setBorrowerName("")
@@ -65,7 +79,7 @@ export default function BorrowingForm() {
           onChange={(e) => setRoomId(Number(e.target.value))}
         >
           <option value="">-- pilih --</option>
-          {roomSeeder.map((room) => (
+          {rooms.map((room) => (
             <option key={room.id} value={room.id}>
               {room.name}
             </option>

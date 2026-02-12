@@ -1,27 +1,16 @@
 import { api } from "./axiosInstance"
+import type {
+  Borrowing,
+  CreateBorrowingDto,
+  UpdateBorrowingDto
+} from "../types/borrowing"
 
-export interface CreateBorrowingDto {
-  borrowerName: string
-  startTime: string
-  endTime: string
-  roomId: number
-  tujuan: string
-}
-
-export interface UpdateBorrowingDto {
-  borrowerName: string
-  startTime: string
-  endTime: string
-  roomId: number
-  tujuan: string
-}
-
-export const getAllBorrowings = async () => {
+export const getAllBorrowings = async (): Promise<Borrowing[]> => {
   const { data } = await api.get("/borrowings")
   return data
 }
 
-export const getBorrowingById = async (id: number) => {
+export const getBorrowingById = async (id: number): Promise<Borrowing> => {
   const { data } = await api.get(`/borrowings/${id}`)
   return data
 }
@@ -31,7 +20,10 @@ export const createBorrowing = async (dto: CreateBorrowingDto) => {
   return data
 }
 
-export const updateBorrowing = async (id: number, dto: UpdateBorrowingDto) => {
+export const updateBorrowing = async (
+  id: number,
+  dto: UpdateBorrowingDto
+) => {
   const { data } = await api.put(`/borrowings/${id}`, dto)
   return data
 }

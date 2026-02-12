@@ -1,18 +1,32 @@
-export interface Room{
-    id: number
-    name: string
-    location: string
+export interface CreateBorrowingDto {
+  borrowerName: string
+  startTime: string
+  endTime: string
+  roomId: number
+  tujuan: string
 }
 
-export interface TimeRange{
-    startDate: string
-    endDate: string
-    startTime: string
-    endTime: string
+export interface UpdateBorrowingDto {
+  borrowerName: string
+  startTime: string
+  endTime: string
+  roomId: number
+  tujuan: string
 }
 
-export interface BorrowingBatch{
-    id:string
-    rooms: Room[]
-    schedule: TimeRange
-} 
+
+export interface Room {
+  id: number
+  name: string
+  location?: string
+}
+
+export interface Borrowing {
+  id: number
+  borrowerName: string
+  startTime: string
+  endTime: string
+  status: number
+  tujuan: string
+  room: Room
+}
