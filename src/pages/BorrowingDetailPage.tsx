@@ -35,7 +35,7 @@ export default function BorrowingDetailPage() {
 
   return (
     <div className="page">
-      <button onClick={() => navigate(`/`)}>Kembali</button>
+      <button onClick={() => navigate(`/borrowings`)}>Kembali</button>
       <h1>Detail Peminjaman</h1>
 
       <p>
