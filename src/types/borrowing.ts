@@ -1,3 +1,4 @@
+import type { Room } from "./room"
 export interface CreateBorrowingDto {
   borrowerName: string
   startTime: string
@@ -12,13 +13,6 @@ export interface UpdateBorrowingDto {
   endTime: string
   roomId: number
   tujuan: string
-}
-
-
-export interface Room {
-  id: number
-  name: string
-  location?: string
 }
 
 export interface Borrowing {

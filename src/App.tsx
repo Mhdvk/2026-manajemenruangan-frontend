@@ -5,6 +5,7 @@ import BorrowingFormPage from "./pages/BorrowingFormPage";
 import BorrowingDetailPage from "./pages/BorrowingDetailPage";
 import BorrowingEditPage from "./pages/BorrowingEditPage";
 import BorrowingApprovalPage from "./pages/BorrowingApprovalPage";
+import RoomPage from "./pages/RoomPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="borrowings/:id" element={<BorrowingDetailPage/>}/>
         <Route path="borrowings/:id/edit" element={<BorrowingEditPage/>}/>
         <Route path="borrowings/admin/approval" element={<BorrowingApprovalPage/>}/>
+        <Route path="borrowings/room" element={<RoomPage/>}/>
       </Routes>
     </BrowserRouter>
   );
