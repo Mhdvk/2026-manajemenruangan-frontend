@@ -6,10 +6,12 @@ import BorrowingDetailPage from "./pages/BorrowingDetailPage";
 import BorrowingEditPage from "./pages/BorrowingEditPage";
 import BorrowingApprovalPage from "./pages/BorrowingApprovalPage";
 import RoomPage from "./pages/RoomPage";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
     <BrowserRouter>
+    <Navbar/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/borrowings/create" element={<BorrowingFormPage />} />
