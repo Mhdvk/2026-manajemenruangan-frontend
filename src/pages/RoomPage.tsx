@@ -12,32 +12,55 @@ export default function RoomPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading data ruangan...</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <p className="text-gray-500 text-sm">Loading data ruangan...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="page">
-      <h1>Daftar Ruangan</h1>
+    <div className="max-w-6xl mx-auto px-6 py-6">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-6">
+        Daftar Ruangan
+      </h1>
 
-      {rooms.length === 0 && <p>Tidak ada ruangan tersedia</p>}
-
-      <table border={1} cellPadding={8} style={{ marginTop: 12 }}>
-        <thead>
-          <tr>
-            <th>Nama Ruangan</th>
-            <th>Lokasi</th>
-            <th>Kapasitas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rooms.map((room) => (
-            <tr key={room.id}>
-              <td>{room.name}</td>
-              <td>{room.location}</td>
-              <td>{room.capacity ?? "-"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {rooms.length === 0 ? (
+        <div className="bg-gray-50 border border-dashed border-gray-300 rounded-lg p-8 text-center text-gray-500">
+          Tidak ada ruangan tersedia
+        </div>
+      ) : (
+        <div className="overflow-x-auto bg-white shadow-sm rounded-lg border">
+          <table className="min-w-full text-sm text-left">
+            <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
+              <tr>
+                <th className="px-6 py-3">Nama Ruangan</th>
+                <th className="px-6 py-3">Lokasi</th>
+                <th className="px-6 py-3">Kapasitas</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {rooms.map((room) => (
+                <tr
+                  key={room.id}
+                  className="hover:bg-gray-50 transition"
+                >
+                  <td className="px-6 py-4 font-medium text-gray-800">
+                    {room.name}
+                  </td>
+                  <td className="px-6 py-4 text-gray-600">
+                    {room.location}
+                  </td>
+                  <td className="px-6 py-4 text-gray-600">
+                    {room.capacity ?? "-"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

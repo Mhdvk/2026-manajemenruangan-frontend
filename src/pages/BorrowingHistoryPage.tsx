@@ -1,127 +1,149 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import EmptyState from "../components/EmptyState";
-import statusMap from "../constant/borrowingStatus";
-import { getAllBorrowings } from "../api/borrowingApi";
-import type { Borrowing } from "../types/borrowing";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import EmptyState from "../components/EmptyState"
+import statusMap from "../constant/borrowingStatus"
+import { getAllBorrowings } from "../api/borrowingApi"
+import type { Borrowing } from "../types/borrowing"
 
 type SortOption =
   | "startTime"
   | "borrowerName"
   | "roomName"
-  | "status";
+  | "status"
 
 export default function BorrowingHistoryPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [borrowings, setBorrowings] = useState<Borrowing[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [borrowings, setBorrowings] = useState<Borrowing[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const [search, setSearch] = useState("");
-  const [filterByDate, setFilterByDate] = useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("startTime");
+  // ===== FILTER STATE =====
+  const [search, setSearch] = useState("")
+  const [filterByDate, setFilterByDate] = useState(false)
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
+  const [sortBy, setSortBy] = useState<SortOption>("startTime")
 
   useEffect(() => {
-    const fetchBorrowings = async () => {
-      try {
-        const data = await getAllBorrowings();
-        setBorrowings(data);
-      } catch (err) {
-        console.error("Gagal mengambil data peminjaman", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    getAllBorrowings()
+      .then(setBorrowings)
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])
 
-    fetchBorrowings();
-  }, []);
+  // Reset tanggal saat checkbox dimatikan
+  useEffect(() => {
+    if (!filterByDate) {
+      setStartDate("")
+      setEndDate("")
+    }
+  }, [filterByDate])
 
   const filteredBorrowings = borrowings
+    // SEARCH
     .filter((b) => {
-      if (!search) return true;
-      const keyword = search.toLowerCase();
+      if (!search) return true
+      const key = search.toLowerCase()
       return (
-        b.borrowerName.toLowerCase().includes(keyword) ||
-        b.room.name.toLowerCase().includes(keyword)
-      );
+        b.borrowerName.toLowerCase().includes(key) ||
+        b.room.name.toLowerCase().includes(key)
+      )
     })
+    // FILTER DATE
     .filter((b) => {
-      if (!filterByDate || !startDate || !endDate) return true;
-      const borrowingDate = new Date(b.startTime);
-      return (
-        borrowingDate >= new Date(startDate) &&
-        borrowingDate <= new Date(endDate)
-      );
+      if (!filterByDate || !startDate || !endDate) return true
+      const date = new Date(b.startTime)
+      return date >= new Date(startDate) && date <= new Date(endDate)
     })
+    // SORT
     .sort((a, b) => {
       switch (sortBy) {
         case "borrowerName":
-          return a.borrowerName.localeCompare(b.borrowerName);
+          return a.borrowerName.localeCompare(b.borrowerName)
         case "roomName":
-          return a.room.name.localeCompare(b.room.name);
+          return a.room.name.localeCompare(b.room.name)
         case "status":
-          return a.status - b.status;
+          return a.status - b.status
         case "startTime":
         default:
           return (
             new Date(a.startTime).getTime() -
             new Date(b.startTime).getTime()
-          );
+          )
       }
-    });
+    })
 
   return (
-    <div className="page">
-      <h1>Riwayat Peminjaman Ruangan</h1>
+    <div className="max-w-6xl mx-auto px-6 py-6">
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">
+          Riwayat Peminjaman Ruangan
+        </h1>
 
-      <button onClick={() => navigate("/borrowings/create")}>
-        Tambah Peminjaman
-      </button>
+        <button
+          onClick={() => navigate("/borrowings/create")}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          + Tambah Peminjaman
+        </button>
+      </div>
 
-      <div style={{ marginTop: 16, display: "flex", gap: 8, flexWrap: "wrap" }}>
+      {/* FILTER BAR */}
+      <div className="bg-white border rounded-lg p-4 mb-6 space-y-4">
+        {/* SEARCH */}
         <input
+          type="text"
           placeholder="Cari nama peminjam atau ruangan"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="w-full border rounded px-3 py-2"
         />
 
-        <label>
-          <input
-            type="checkbox"
-            checked={filterByDate}
-            onChange={(e) => setFilterByDate(e.target.checked)}
-          />{" "}
-          Filter berdasarkan tanggal
-        </label>
+        {/* CHECKBOX FILTER */}
+        <div className="flex flex-wrap gap-6 items-center">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={filterByDate}
+              onChange={(e) => setFilterByDate(e.target.checked)}
+              className="w-4 h-4 accent-blue-600"
+            />
+            Filter berdasarkan tanggal
+          </label>
 
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+            className="border rounded px-3 py-2"
+          >
+            <option value="startTime">Urutkan: Waktu Mulai</option>
+            <option value="borrowerName">Nama Peminjam</option>
+            <option value="roomName">Nama Ruangan</option>
+            <option value="status">Status</option>
+          </select>
+        </div>
+
+        {/* DATE INPUT */}
         {filterByDate && (
-          <>
+          <div className="flex gap-4">
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
+              className="border rounded px-3 py-2"
             />
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
+              className="border rounded px-3 py-2"
             />
-          </>
+          </div>
         )}
-
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as SortOption)}
-        >
-          <option value="startTime">Waktu Mulai</option>
-          <option value="borrowerName">Nama Peminjam</option>
-          <option value="roomName">Nama Ruangan</option>
-          <option value="status">Status</option>
-        </select>
       </div>
 
+      {/* CONTENT */}
       {loading ? (
         <p>Loading data...</p>
       ) : filteredBorrowings.length === 0 ? (
@@ -130,41 +152,49 @@ export default function BorrowingHistoryPage() {
           description="Coba ubah pencarian atau filter."
           buttonText="Reset"
           onClick={() => {
-            setSearch("");
-            setStartDate("");
-            setEndDate("");
-            setFilterByDate(false);
+            setSearch("")
+            setFilterByDate(false)
+            setStartDate("")
+            setEndDate("")
+            setSortBy("startTime")
           }}
         />
       ) : (
-        <div style={{ marginTop: 16 }}>
+        <div className="space-y-4">
           {filteredBorrowings.map((b) => (
             <div
               key={b.id}
-              style={{
-                border: "1px solid #ddd",
-                padding: 12,
-                marginBottom: 8,
-                borderRadius: 6,
-              }}
+              className="border rounded-lg p-4 bg-white shadow-sm"
             >
-              <p><b>Peminjam:</b> {b.borrowerName}</p>
-              <p><b>Ruangan:</b> {b.room.name}</p>
-              <p><b>Tujuan:</b> {b.tujuan}</p>
-              <p>
-                <b>Waktu:</b>{" "}
+              <div className="grid md:grid-cols-2 gap-2">
+                <p><b>Peminjam:</b> {b.borrowerName}</p>
+                <p><b>Ruangan:</b> {b.room.name}</p>
+                <p><b>Tujuan:</b> {b.tujuan}</p>
+                <p>
+                  <b>Status:</b>{" "}
+                  <span className="font-semibold">
+                    {statusMap[b.status]}
+                  </span>
+                </p>
+              </div>
+
+              <p className="mt-2 text-sm text-gray-600">
                 {new Date(b.startTime).toLocaleString()} –{" "}
                 {new Date(b.endTime).toLocaleString()}
               </p>
-              <p><b>Status:</b> {statusMap[b.status]}</p>
 
-              <button onClick={() => navigate(`/borrowings/${b.id}`)}>
-                Detail
-              </button>
+              <div className="mt-3">
+                <button
+                  onClick={() => navigate(`/borrowings/${b.id}`)}
+                  className="text-blue-600 hover:underline"
+                >
+                  Detail →
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
     </div>
-  );
+  )
 }
