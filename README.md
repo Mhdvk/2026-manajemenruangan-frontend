@@ -21,37 +21,35 @@ Aplikasi ini digunakan untuk:
 -  **Axios**
 -  **Node.js & NPM**
 
----
+## 📄 Halaman Utama (Pages)
 
-## 📁 Struktur Folder
-src/
-├── api/ # Axios & API handler
-│ ├── axiosInstance.ts
-│ ├── borrowingApi.ts
-│ └── roomApi.ts
-│
-├── components/ # Komponen reusable
-│ ├── Navbar.tsx
-│ └── EmptyState.tsx
-│
-├── pages/ # Halaman aplikasi
-│ ├── LandingPage.tsx
-│ ├── RoomPage.tsx
-│ ├── BorrowingFormPage.tsx
-│ ├── BorrowingHistoryPage.tsx
-│ ├── BorrowingDetailPage.tsx
-│ ├── BorrowingEditPage.tsx
-│ └── BorrowingApprovalPage.tsx
-│
-├── types/ # TypeScript interfaces
-│ ├── room.ts
-│ └── borrowing.ts
-│
-├── constant/
-│ └── borrowingStatus.ts
-│
-├── App.tsx
-└── main.tsx
+Aplikasi ini memiliki beberapa halaman utama sebagai berikut:
+
+- **Landing Page**  
+  Halaman awal aplikasi yang berisi gambaran umum sistem dan navigasi utama.
+
+- **Daftar Ruangan**  
+  Menampilkan seluruh ruangan yang tersedia beserta informasi lokasi dan kapasitas.
+
+- **Form Peminjaman Ruangan**  
+  Digunakan oleh pengguna untuk mengajukan peminjaman ruangan.
+
+- **Riwayat Peminjaman**  
+  Menampilkan seluruh data peminjaman yang tersimpan, dilengkapi dengan:
+  - Searching (nama peminjam & ruangan)
+  - Filtering berdasarkan rentang waktu
+  - Sorting data (status, waktu, nama peminjam, nama ruangan)
+
+- **Detail Peminjaman**  
+  Menampilkan informasi detail dari satu data peminjaman.
+
+- **Edit Peminjaman**  
+  Memungkinkan pengguna mengubah data peminjaman yang sudah dibuat.
+
+- **Approval Peminjaman (Admin)**  
+  Halaman khusus admin untuk menyetujui atau menolak peminjaman ruangan.
+
+---
 
 Fitur Utama
 📌 Peminjaman
@@ -75,3 +73,9 @@ Jika waktu/ruangan berubah → status otomatis kembali Pending
 📌 Ruangan
 Menampilkan seluruh ruangan
 Nama, lokasi, kapasitas
+
+##  Cara Menjalankan Frontend
+```bash
+npm install
+npm run dev
+Pastikan backend sudah berjalan agar data dapat ditampilkan dengan benar.
