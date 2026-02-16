@@ -11,12 +11,10 @@ export default function Navbar() {
   return (
     <nav className="w-full bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        {/* Logo / Title */}
         <span className="text-lg font-semibold text-gray-800">
           Sistem Manajemen Peminjaman Ruangan
         </span>
 
-        {/* Menu */}
         <div className="flex items-center gap-2">
           <NavLink
             to="/"

@@ -17,7 +17,6 @@ export default function BorrowingHistoryPage() {
   const [borrowings, setBorrowings] = useState<Borrowing[]>([])
   const [loading, setLoading] = useState(true)
 
-  // ===== FILTER STATE =====
   const [search, setSearch] = useState("")
   const [filterByDate, setFilterByDate] = useState(false)
   const [startDate, setStartDate] = useState("")
@@ -31,7 +30,6 @@ export default function BorrowingHistoryPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  // Reset tanggal saat checkbox dimatikan
   useEffect(() => {
     if (!filterByDate) {
       setStartDate("")
@@ -40,7 +38,6 @@ export default function BorrowingHistoryPage() {
   }, [filterByDate])
 
   const filteredBorrowings = borrowings
-    // SEARCH
     .filter((b) => {
       if (!search) return true
       const key = search.toLowerCase()
@@ -75,7 +72,6 @@ export default function BorrowingHistoryPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-6">
-      {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">
           Riwayat Peminjaman Ruangan
@@ -89,9 +85,7 @@ export default function BorrowingHistoryPage() {
         </button>
       </div>
 
-      {/* FILTER BAR */}
       <div className="bg-white border rounded-lg p-4 mb-6 space-y-4">
-        {/* SEARCH */}
         <input
           type="text"
           placeholder="Cari nama peminjam atau ruangan"
@@ -100,7 +94,6 @@ export default function BorrowingHistoryPage() {
           className="w-full border rounded px-3 py-2"
         />
 
-        {/* CHECKBOX FILTER */}
         <div className="flex flex-wrap gap-6 items-center">
           <label className="flex items-center gap-2">
             <input
@@ -124,7 +117,6 @@ export default function BorrowingHistoryPage() {
           </select>
         </div>
 
-        {/* DATE INPUT */}
         {filterByDate && (
           <div className="flex gap-4">
             <input
@@ -143,7 +135,6 @@ export default function BorrowingHistoryPage() {
         )}
       </div>
 
-      {/* CONTENT */}
       {loading ? (
         <p>Loading data...</p>
       ) : filteredBorrowings.length === 0 ? (
