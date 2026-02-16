@@ -12,7 +12,7 @@ Aplikasi ini digunakan untuk:
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 -  **React** (Vite)
 -  **TypeScript**
@@ -21,7 +21,7 @@ Aplikasi ini digunakan untuk:
 -  **Axios**
 -  **Node.js & NPM**
 
-## 📄 Halaman Utama (Pages)
+## Halaman Utama (Pages)
 
 Aplikasi ini memiliki beberapa halaman utama sebagai berikut:
 
@@ -51,7 +51,7 @@ Aplikasi ini memiliki beberapa halaman utama sebagai berikut:
 
 ---
 
-Fitur Utama
+## Fitur Utama
 
 📌 Peminjaman
 Ajukan peminjaman ruangan
