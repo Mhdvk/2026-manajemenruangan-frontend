@@ -6,6 +6,14 @@ MAJOR.MINOR.PATCH
 
 ---
 
+## [v0.3.0] – 2026-02-15
+### Added
+- Styling untuk setiap halaman admin approval dan edit peminjaman
+- Mengganti styling untuk landing page
+
+---
+---
+
 ## [v0.2.0] – 2026-02-15
 ### Changed
 - Review code dan penghapusan kode frontend yang sudah tidak diperlukan.
