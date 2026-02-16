@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# Sistem Manajemen Peminjaman Ruangan — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend aplikasi **Sistem Manajemen Peminjaman Ruangan**  
+dibangun menggunakan **React + TypeScript + Vite** dan **Tailwind CSS**.
 
-Currently, two official plugins are available:
+Aplikasi ini digunakan untuk:
+- Melihat daftar ruangan
+- Mengajukan peminjaman ruangan
+- Melihat riwayat peminjaman
+- Mengelola peminjaman (detail, edit)
+- (Admin) Persetujuan peminjaman
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-  **React** (Vite)
+-  **TypeScript**
+-  **Tailwind CSS**
+-  **React Router DOM**
+-  **Axios**
+-  **Node.js & NPM**
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📁 Struktur Folder
+src/
+├── api/ # Axios & API handler
+│ ├── axiosInstance.ts
+│ ├── borrowingApi.ts
+│ └── roomApi.ts
+│
+├── components/ # Komponen reusable
+│ ├── Navbar.tsx
+│ └── EmptyState.tsx
+│
+├── pages/ # Halaman aplikasi
+│ ├── LandingPage.tsx
+│ ├── RoomPage.tsx
+│ ├── BorrowingFormPage.tsx
+│ ├── BorrowingHistoryPage.tsx
+│ ├── BorrowingDetailPage.tsx
+│ ├── BorrowingEditPage.tsx
+│ └── BorrowingApprovalPage.tsx
+│
+├── types/ # TypeScript interfaces
+│ ├── room.ts
+│ └── borrowing.ts
+│
+├── constant/
+│ └── borrowingStatus.ts
+│
+├── App.tsx
+└── main.tsx
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Fitur Utama
+📌 Peminjaman
+Ajukan peminjaman ruangan
+Validasi waktu (start < end)
+Otomatis status Pending
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+📌 Riwayat Peminjaman
+Search (nama peminjam / ruangan)
+Filter berdasarkan tanggal (checkbox)
+Sorting:
+Waktu mulai
+Nama peminjam
+Nama ruangan
+Status
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+📌 Edit Peminjaman
+Edit peminjam, waktu, ruangan, tujuan
+Jika waktu/ruangan berubah → status otomatis kembali Pending
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+📌 Ruangan
+Menampilkan seluruh ruangan
+Nama, lokasi, kapasitas
